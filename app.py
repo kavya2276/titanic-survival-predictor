@@ -66,7 +66,11 @@ def train_model():
     st.write("Accuracy:", round(accuracy * 100, 2), "%")
 
     st.write("Confusion Matrix:")
-    st.write(cm)
+    st.dataframe(pd.DataFrame(
+    cm,
+    index=["Actual: Did not survive", "Actual: Survived"],
+    columns=["Predicted: Did not survive", "Predicted: Survived"]
+    ))
 
     st.write("Classification Report:")
     st.text(report)
