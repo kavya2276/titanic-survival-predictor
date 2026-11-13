@@ -50,27 +50,28 @@ def train_model():
         ("classifier", LogisticRegression(max_iter=1000))
     ])
 
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y
-)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
+    )
 
-model.fit(X_train, y_train)
+    model.fit(X_train, y_train)
 
-y_pred = model.predict(X_test)
+    y_pred = model.predict(X_test)
 
-accuracy = accuracy_score(y_test, y_pred)
-cm = confusion_matrix(y_test, y_pred)
-report = classification_report(y_test, y_pred)
-st.subheader("Model Evaluation")
+    accuracy = accuracy_score(y_test, y_pred)
+    cm = confusion_matrix(y_test, y_pred)
+    report = classification_report(y_test, y_pred)
 
-st.write("Accuracy:", round(accuracy * 100, 2), "%")
+    st.subheader("Model Evaluation")
+    st.write("Accuracy:", round(accuracy * 100, 2), "%")
 
-st.write("Confusion Matrix:")
-st.write(cm)
+    st.write("Confusion Matrix:")
+    st.write(cm)
 
-st.write("Classification Report:")
-st.text(report)
-return model
+    st.write("Classification Report:")
+    st.text(report)
+
+    return model
 
 st.title("🚢 Titanic Survival Predictor")
 st.write(
