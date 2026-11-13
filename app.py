@@ -6,6 +6,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 from imblearn.over_sampling import RandomOverSampler
 from imblearn.pipeline import Pipeline
 
@@ -48,8 +50,27 @@ def train_model():
         ("classifier", LogisticRegression(max_iter=1000))
     ])
 
-    model.fit(X, y)
-    return model
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+cm = confusion_matrix(y_test, y_pred)
+report = classification_report(y_test, y_pred)
+st.subheader("Model Evaluation")
+
+st.write("Accuracy:", round(accuracy * 100, 2), "%")
+
+st.write("Confusion Matrix:")
+st.write(cm)
+
+st.write("Classification Report:")
+st.text(report)
+return model
 
 st.title("🚢 Titanic Survival Predictor")
 st.write(
